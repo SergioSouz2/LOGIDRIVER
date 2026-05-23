@@ -23,7 +23,7 @@ interface ThemeProviderProps {
   override?: DeepPartial<Theme>;
 }
 
-export function ThemeProvider({ children, override }: ThemeProviderProps) {
+export   function ThemeProvider({ children, override }: ThemeProviderProps) {
   const resolved = override ? deepMerge(theme, override) : theme;
 
   return (

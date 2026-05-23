@@ -1,11 +1,11 @@
 import { ThemeProvider } from '@/provider/Themeprovider';
+import { Stack } from 'expo-router';
 import React from 'react';
-import HomeScreen from '.';
 
 export default function TabLayout() {
   return (
     <ThemeProvider>
-      <HomeScreen />
+       <Stack screenOptions={{ headerShown: false }}  />
     </ThemeProvider>
   );
 }
