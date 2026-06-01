@@ -15,8 +15,14 @@ export const styles = StyleSheet.create({
   logoArea: {
     alignItems: "center",
     paddingTop: 72,
-    paddingBottom: 36,
   },
+
+  logo: {
+    width: 250,
+    height: 250,
+    resizeMode: "contain",
+  },
+
   logoBox: {},
   logoEmoji: {
     fontSize: 34,
@@ -45,32 +51,24 @@ export const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 28,
   },
-  label: {
-    fontSize: 11,
-    fontWeight: "600",
-    color: colors.textSub,
-    marginBottom: 6,
-  },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.md,
-    height: 52,
-    paddingHorizontal: 14,
-    marginBottom: 16,
-    gap: 10,
-  },
-  inputIcon: {
-    fontSize: 16,
-  },
-  input: {
-    flex: 1,
-    color: colors.text,
-    fontSize: 14,
-  },
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
   eyeBtn: {
     padding: 4,
   },

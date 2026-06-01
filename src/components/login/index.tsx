@@ -1,21 +1,23 @@
-import Logo from '@/assets/logidriver_logo_transparent.svg';
+import Logo from "@/assets/logo.png";
+import { Input } from "@/components/Input";
 import { useTheme } from "@/provider/Themeprovider";
 import { styles } from "@/styles/loginStyles";
+import { Ionicons } from "@expo/vector-icons";
+
+
 import { useState } from "react";
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
-  useWindowDimensions,
   View
 } from "react-native";
 
 export default function LoginScreen() {
   const { colors, font } = useTheme();
-  const { width } = useWindowDimensions();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,44 +32,41 @@ export default function LoginScreen() {
 
         {/* Logo */}
         <View style={styles.logoArea}>
-          <Logo width={width * 0.7} height={(width * 0.7) / 2.5} />
+          <Image source={Logo} style={styles.logo} />
         </View>
 
         {/* Form */}
         <Text style={[styles.formTitle, { fontFamily: font.display }]}>Entrar</Text>
         <Text style={[styles.formSub, { fontFamily: font.body }]}>Acesse sua conta de motorista</Text>
 
-        {/* Email */}
-        <Text style={[styles.label, { fontFamily: font.body }]}>E-mail ou CPF</Text>
-        <View style={styles.inputWrapper}>
-          <Text style={styles.inputIcon}>✉️</Text>
-          <TextInput
-            style={[styles.input, { fontFamily: font.body }]}
-            placeholder="seuemail@empresa.com"
-            placeholderTextColor={colors.textMuted}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
+        <Input
+          label="Email"
+          placeholder="Digite seu email"
+          icon={
+            <Ionicons
+              name="mail-outline"
+              size={20}
+              color="#666"
+            />
+          }
+          value={email}
+          onChangeText={setEmail}
+        />
 
-        {/* Senha */}
-        <Text style={[styles.label, { fontFamily: font.body }]}>Senha</Text>
-        <View style={styles.inputWrapper}>
-          <Text style={styles.inputIcon}>🔒</Text>
-          <TextInput
-            style={[styles.input, { fontFamily: font.body }]}
-            placeholder="••••••••"
-            placeholderTextColor={colors.textMuted}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowPassword(v => !v)}>
-            <Text style={styles.eyeIcon}>{showPassword ? "🙈" : "👁️"}</Text>
-          </TouchableOpacity>
-        </View>
+        <Input
+          label="Senha"
+          placeholder="Digite sua senha"
+          icon={
+            <Ionicons
+              name="lock-closed-outline"
+              size={20}
+              color="#666"
+            />
+          }
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+        />
 
         {/* Esqueceu senha */}
         <TouchableOpacity style={styles.forgotBtn}>
