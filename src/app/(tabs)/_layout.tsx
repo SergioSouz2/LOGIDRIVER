@@ -4,12 +4,24 @@ import { Ionicons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Tabs } from 'expo-router';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const { colors, radius } = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.tabBar, { backgroundColor: colors.surface, borderTopColor: colors.border }]}>
+    <View
+      style={[
+        styles.tabBar,
+        {
+          backgroundColor: colors.surface,
+          borderTopColor: colors.border,
+          height: styles.tabBar.height + insets.bottom,
+          paddingBottom: 8 + insets.bottom,
+        },
+      ]}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;
@@ -32,10 +44,10 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
         }
 
         const iconMap: Record<string, keyof typeof Ionicons.glyphMap> = {
-          index:     isFocused ? 'home'          : 'home-outline',
-          mapa:      isFocused ? 'map'            : 'map-outline',
+          index: isFocused ? 'home' : 'home-outline',
+          mapa: isFocused ? 'map' : 'map-outline',
           historico: isFocused ? 'document-text' : 'document-text-outline',
-          perfil:    isFocused ? 'person'         : 'person-outline',
+          perfil: isFocused ? 'person' : 'person-outline',
         };
 
         const labelMap: Record<string, string> = {
@@ -62,12 +74,11 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 export default function TabsLayout() {
   return (
     <Tabs tabBar={(props) => <CustomTabBar {...props} />} screenOptions={{ headerShown: false }}>
-      <Tabs.Screen name="index"     options={{ title: 'Home' }} />
-      <Tabs.Screen name="mapa"      options={{ title: 'Mapa' }} />
-      <Tabs.Screen name="nova"      options={{ title: 'Nova' }} />
+      <Tabs.Screen name="index" options={{ title: 'Home' }} />
+      <Tabs.Screen name="mapa" options={{ title: 'Mapa' }} />
+      <Tabs.Screen name="nova" options={{ title: 'Nova' }} />
       <Tabs.Screen name="historico" options={{ title: 'Histórico' }} />
-      <Tabs.Screen name="perfil"    options={{ title: 'Perfil' }} />
+      <Tabs.Screen name="perfil" options={{ title: 'Perfil' }} />
     </Tabs>
   );
 }
-

@@ -1,10 +1,10 @@
 import { useTheme } from "@/provider/Themeprovider";
-import { styles } from "@/styles/inputStyles";
+import { styles } from "@/styles/InputStyles";
 import {
-    Text,
-    TextInput,
-    TextInputProps,
-    View,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
 } from "react-native";
 
 interface InputProps extends TextInputProps {

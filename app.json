@@ -50,6 +50,14 @@
 
           "imageWidth": 180
         }
+      ],
+
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "O LogiDriver usa a câmera para fotografar a nota fiscal e extrair o CNPJ e o endereço automaticamente.",
+          "microphonePermission": false
+        }
       ]
     ],
 
