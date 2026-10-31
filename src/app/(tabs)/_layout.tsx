@@ -1,13 +1,14 @@
-import { useTheme } from '@/provider/Themeprovider';
-import { styles } from '@/styles/CustomTabBarStyles';
-import { Ionicons } from '@expo/vector-icons';
-import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Tabs } from 'expo-router';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TabBarButton } from "@/components/TabBarButton/TabBarButton";
+import { TABS } from "@/constants/tabs";
+import { useTheme } from "@/provider/Themeprovider";
+import { styles } from "@/styles/CustomTabBarStyles";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { Tabs } from "expo-router";
+import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
-  const { colors, radius } = useTheme();
+function CustomTabBar({ state, navigation }: BottomTabBarProps) {
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
@@ -23,48 +24,30 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
       ]}
     >
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const config = TABS[route.name];
+        if (!config) return null;
+
         const isFocused = state.index === index;
-        const isCenter = route.name === 'nova';
 
         const onPress = () => {
-          const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-          if (!isFocused && !event.defaultPrevented) navigation.navigate(route.name);
-        };
-
-        if (isCenter) {
-          return (
-            <TouchableOpacity key={route.key} onPress={onPress} style={styles.centerBtn} activeOpacity={0.85}>
-              <View style={[styles.centerCircle, { backgroundColor: colors.primary, borderRadius: radius.full }]}>
-                <Ionicons name="add" size={32} color={colors.white} />
-              </View>
-              <Text style={[styles.centerLabel, { color: colors.textMuted }]}>Nova</Text>
-            </TouchableOpacity>
-          );
-        }
-
-        const iconMap: Record<string, keyof typeof Ionicons.glyphMap> = {
-          index: isFocused ? 'home' : 'home-outline',
-          mapa: isFocused ? 'map' : 'map-outline',
-          historico: isFocused ? 'document-text' : 'document-text-outline',
-          perfil: isFocused ? 'person' : 'person-outline',
-        };
-
-        const labelMap: Record<string, string> = {
-          index: 'Home', mapa: 'Mapa', historico: 'Histórico', perfil: 'Perfil',
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+            canPreventDefault: true,
+          });
+          if (!isFocused && !event.defaultPrevented)
+            navigation.navigate(route.name);
         };
 
         return (
-          <TouchableOpacity key={route.key} onPress={onPress} style={styles.tabItem} activeOpacity={0.7}>
-            <Ionicons
-              name={iconMap[route.name] ?? 'ellipse-outline'}
-              size={24}
-              color={isFocused ? colors.primary : colors.textMuted}
-            />
-            <Text style={[styles.tabLabel, { color: isFocused ? colors.primary : colors.textMuted }]}>
-              {labelMap[route.name] ?? options.title}
-            </Text>
-          </TouchableOpacity>
+          <TabBarButton
+            key={route.key}
+            variant={config.variant}
+            label={config.label}
+            icon={isFocused ? config.iconFocused : config.icon}
+            focused={isFocused}
+            onPress={onPress}
+          />
         );
       })}
     </View>
@@ -73,12 +56,15 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 
 export default function TabsLayout() {
   return (
-    <Tabs tabBar={(props) => <CustomTabBar {...props} />} screenOptions={{ headerShown: false }}>
-      <Tabs.Screen name="index" options={{ title: 'Home' }} />
-      <Tabs.Screen name="mapa" options={{ title: 'Mapa' }} />
-      <Tabs.Screen name="nova" options={{ title: 'Nova' }} />
-      <Tabs.Screen name="historico" options={{ title: 'Histórico' }} />
-      <Tabs.Screen name="perfil" options={{ title: 'Perfil' }} />
+    <Tabs
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{ headerShown: false }}
+    >
+      <Tabs.Screen name="index" options={{ title: "Home" }} />
+      <Tabs.Screen name="mapa" options={{ title: "Mapa" }} />
+      <Tabs.Screen name="nova" options={{ title: "Nova" }} />
+      <Tabs.Screen name="historico" options={{ title: "Histórico" }} />
+      <Tabs.Screen name="perfil" options={{ title: "Perfil" }} />
     </Tabs>
   );
 }
